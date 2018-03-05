@@ -11,20 +11,34 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class HTMLParser {
-  Document doc = null;
+  Document doc;
   ArrayList<Map> items;
 
+  public Parsed(Document doc, ArrayList<Map> items) {
+    doc = null;
+    items = null;
+  }
+
   // load the HTML from the Laptops application URL
-  public void getDocument() {
+  public Document getDocument() {
     try {
       doc = Jsoup.connect("http://catalog.umd.edu/cgi-bin/laptops").get();
     } catch (IOException e) {
       System.err.println("Caught IOException: " + e.getMessage());
     }
+    return doc;
   }
 
-  // Build list of items from parsing HTML
-  public void getItems() {
+  public void setDocument(Document doc) {
+    this.doc = doc;
+  }
+
+  public ArrayList<Map> getItems(ArrayList<Map> items) {
+    return items;
+  }
+
+  // Build list of items from parsing HTML table
+  public void setItems(ArrayList<Map> items) {
     // select all table row sections
     Elements rows = doc.select("tr");
     for (Element row : rows) {
@@ -37,6 +51,7 @@ public class HTMLParser {
       }
       items.add(item);
     }
+    this.items = items;
   }
 
 }
