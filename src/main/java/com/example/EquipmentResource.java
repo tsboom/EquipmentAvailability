@@ -1,22 +1,15 @@
 package com.example;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 @Path("equipment")
 public class EquipmentResource {
@@ -25,42 +18,80 @@ public class EquipmentResource {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public String getEquipment() {
-    Document doc = null;
-    try {
-      // wrap in try /catch b/c of IO exception
-      // load the HTML from the Laptops application URL
-      doc = Jsoup.connect("http://catalog.umd.edu/cgi-bin/laptops").get();
-    } catch (IOException e) {
-      System.err.println("Caught IOException: " + e.getMessage());
-    }
 
-    ArrayList<Map> items = new ArrayList<>();
+    // get the HTML into jsoup
+    Document doc = HTMLParser.parseDocument();
 
-    // select all table row sections
-    Elements rows = doc.select("tr");
-    for (Element row : rows) {
-      Elements tds = row.getElementsByTag("td");
-      Map<String, String> item = new HashMap<String, String>();
-      for (Element td : tds) {
-        String className = td.attr("class");
-        String value = td.text();
-        item.put(className, value);
-      }
-      items.add(item);
-    }
+    // build the item list from parsed HTML
+    List<Map> parsedItems = HTMLParser.createItemsList(doc);
 
-    // convert HashMap into Json
-    Gson gson = new GsonBuilder().create();
-    String json = gson.toJson(items);
+    // instantiate itemList
+    ItemList items = new ItemList(parsedItems);
+
+    // convert items into Json
+    String json = JSONutilities.createJson(items);
 
     return json;
   }
 
-  @Path("available")
+  // show items that are available in order of the least available
+  @Path("mostwanted")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public String getAvailable() {
-    return "return available equipment";
+  public String getMostWanted() {
+
+    // get the HTML into jsoup
+    Document doc = HTMLParser.parseDocument();
+
+    // build the item list from parsed HTML
+    List<Map> items = HTMLParser.createItemsList(doc);
+
+    return "return unavailable equipment";
 
   }
+
+  // show items from a particular sublibrary
+  @Path("sublibrary/{sublib}/")
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public String getItemsFromSublibrary(@PathParam("sublib") String sublib) {
+    // get the HTML into jsoup
+    Document doc = HTMLParser.parseDocument();
+
+    // build the item list from parsed HTML
+    List<Map> parsedItems = HTMLParser.createItemsList(doc);
+
+    // instantiate itemList
+    ItemList items = new ItemList(parsedItems);
+
+    // find sublib
+    // build an array if the value of items.get("sublib") matches the pathparam
+    // for (Map<String, String> item : items) {
+    //
+    // }
+
+    // convert items into Json
+    String json = JSONutilities.createJson(items);
+
+    return json;
+
+    // return "return items in specific sublibrary" + sublib;
+  }
+
+  // show a particular item by sys number
+  @Path("/{sysnum}")
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public String getItemsBySysnum(@PathParam("sysnum") String sysnum) {
+    return "return items in specific sublibrary" + sysnum;
+  }
+
+  // show items that are due soon
+  @Path("sublibrary/{sublib}/")
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public String getItemsDue(@PathParam("sublib") String sublib) {
+    return "return items in specific sublibrary" + sublib;
+  }
+
 }
