@@ -13,9 +13,8 @@ import org.jsoup.nodes.Document;
 
 @Path("equipment")
 public class EquipmentResource {
-
-  @Path("all")
   @GET
+  @Path("all")
   @Produces(MediaType.APPLICATION_JSON)
   public String getEquipment() {
 
@@ -35,8 +34,8 @@ public class EquipmentResource {
   }
 
   // show items that are available in order of the least available
-  @Path("mostwanted")
   @GET
+  @Path("mostwanted")
   @Produces(MediaType.APPLICATION_JSON)
   public String getMostWanted() {
 
@@ -51,8 +50,8 @@ public class EquipmentResource {
   }
 
   // show items from a particular sublibrary
-  @Path("sublibrary/{sublib}/")
   @GET
+  @Path("sublibrary/{sublib}")
   @Produces(MediaType.APPLICATION_JSON)
   public String getItemsFromSublibrary(@PathParam("sublib") String sublib) {
     // get the HTML into jsoup
@@ -65,11 +64,7 @@ public class EquipmentResource {
     ItemList items = new ItemList(parsedItems);
 
     // find sublib
-    // build an array if the value of items.get("sublib") matches the pathparam
-    // for (Map<String, String> item : items) {
-    //
-    // }
-
+    items.setKeyMatches(sublib);
     // convert items into Json
     String json = JSONutilities.createJson(items);
 
@@ -79,7 +74,7 @@ public class EquipmentResource {
   }
 
   // show a particular item by sys number
-  @Path("/{sysnum}")
+  @Path("{sysnum}")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public String getItemsBySysnum(@PathParam("sysnum") String sysnum) {
