@@ -4,14 +4,14 @@ import java.util.Comparator;
 import java.util.Map;
 
 public class Item implements Comparable<Item> {
-  public Map<String, String> properties;
+  private Map<String, String> properties;
 
   // item constructor
   public Item(Map<String, String> properties) {
     this.properties = properties;
   }
 
-  // find the value of the property based on key
+  // get the value of the property based on key
   public String get(String key) {
     return properties.get(key);
   }

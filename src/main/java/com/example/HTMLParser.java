@@ -26,9 +26,9 @@ public class HTMLParser {
   }
 
   // Build list of items from parsing HTML table
-  public static List<Map> createItemsList(Document document) {
+  public static List<Map<String, String>> createItemsList(Document document) {
     // initialize ArrayList of items
-    ArrayList<Map> items = new ArrayList<>();
+    ArrayList<Map<String, String>> items = new ArrayList<>();
     // select all table row sections
     Elements rows = document.select("tr");
     for (Element row : rows) {
@@ -43,7 +43,7 @@ public class HTMLParser {
     }
 
     // ignore first object in ArrayList b/c it's empty
-    List<Map> itemsMinusFirst = items.subList(1, items.size());
+    List<Map<String, String>> itemsMinusFirst = items.subList(1, items.size());
 
     // try {
     // Collections.sort(itemsMinusFirst, (o1, o2) -> new Integer(((String)

@@ -1,39 +1,31 @@
 package com.example;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class ItemList {
-  public List<Map> items;
+  private List<Map<String, String>> items;
 
   // constructor
-  public ItemList(List<Map> parsedItems) {
-    items = parsedItems;
+  public ItemList(List<Map<String, String>> parsedItems) {
+    this.items = parsedItems;
   }
 
-  // filter by key provided in pathparam
-  public void setKeyMatches(String pathParamKey) {
-    List<Map> keyMatches = null;
-    for (Map<String, String> item : items) {
-      String value = item.get(pathParamKey);
-      if (value != null) {
-        keyMatches.add(item);
-      }
-    }
-    System.out.println(keyMatches);
-    this.items = keyMatches;
+  public List<Map<String, String>> getItems() {
+    return items;
   }
 
   // filter by value provided in pathparam
-  public void setValueMatches(String pathParamValue) {
-    List<Map> valueMatches = null;
+  public ItemList matchValue(String pathParamValue) {
+    List<Map<String, String>> valueMatches = new ArrayList<>();
     for (Map<String, String> item : items) {
       if (item.containsValue(pathParamValue)) {
         valueMatches.add(item);
       }
-      System.out.println(valueMatches);
-      this.items = valueMatches;
     }
+    return new ItemList(valueMatches);
   }
-
 }
+
+// sort by key provided in pathparam

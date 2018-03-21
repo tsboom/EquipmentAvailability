@@ -22,7 +22,7 @@ public class EquipmentResource {
     Document doc = HTMLParser.parseDocument();
 
     // build the item list from parsed HTML
-    List<Map> parsedItems = HTMLParser.createItemsList(doc);
+    List<Map<String, String>> parsedItems = HTMLParser.createItemsList(doc);
 
     // instantiate itemList
     ItemList items = new ItemList(parsedItems);
@@ -33,56 +33,56 @@ public class EquipmentResource {
     return json;
   }
 
-  // show items that are available in order of the least available
-  @GET
-  @Path("mostwanted")
-  @Produces(MediaType.APPLICATION_JSON)
-  public String getMostWanted() {
-
-    // get the HTML into jsoup
-    Document doc = HTMLParser.parseDocument();
-
-    // build the item list from parsed HTML
-    List<Map> items = HTMLParser.createItemsList(doc);
-
-    return "return unavailable equipment";
-
-  }
-
   // show items from a particular sublibrary
   @GET
-  @Path("sublibrary/{sublib}")
+  @Path("sublib/{sublib}")
   @Produces(MediaType.APPLICATION_JSON)
   public String getItemsFromSublibrary(@PathParam("sublib") String sublib) {
     // get the HTML into jsoup
     Document doc = HTMLParser.parseDocument();
 
     // build the item list from parsed HTML
-    List<Map> parsedItems = HTMLParser.createItemsList(doc);
+    List<Map<String, String>> parsedItems = HTMLParser.createItemsList(doc);
 
     // instantiate itemList
     ItemList items = new ItemList(parsedItems);
 
     // find sublib
-    items.setKeyMatches(sublib);
+    ItemList filteredItems = items.matchValue(sublib);
+
     // convert items into Json
-    String json = JSONutilities.createJson(items);
+    String json = JSONutilities.createJson(filteredItems);
 
     return json;
 
-    // return "return items in specific sublibrary" + sublib;
   }
 
   // show a particular item by sys number
-  @Path("{sysnum}")
+  @Path("sysnum/{sysnum}")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public String getItemsBySysnum(@PathParam("sysnum") String sysnum) {
-    return "return items in specific sublibrary" + sysnum;
+    // get the HTML into jsoup
+    Document doc = HTMLParser.parseDocument();
+
+    // build the item list from parsed HTML
+    List<Map<String, String>> parsedItems = HTMLParser.createItemsList(doc);
+
+    // instantiate itemList
+    ItemList items = new ItemList(parsedItems);
+
+    // find sysnum
+    ItemList filteredItems = items.matchValue(sysnum);
+
+    // convert items into Json
+    String json = JSONutilities.createJson(filteredItems);
+
+    return json;
+
   }
 
-  // show items that are due soon
-  @Path("sublibrary/{sublib}/")
+  // show items that are checked out. sort by soonest due
+  @Path("checkedout")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public String getItemsDue(@PathParam("sublib") String sublib) {
