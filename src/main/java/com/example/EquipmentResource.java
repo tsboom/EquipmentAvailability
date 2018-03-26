@@ -1,5 +1,6 @@
 package com.example;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -85,8 +86,30 @@ public class EquipmentResource {
   @Path("checkedout")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
-  public String getItemsDue(@PathParam("sublib") String sublib) {
-    return "return items in specific sublibrary" + sublib;
+  public String getItemsDue() {
+    // get the HTML into jsoup
+    Document doc = HTMLParser.parseDocument();
+
+    // build the item list from parsed HTML
+    List<Map<String, String>> parsedItems = HTMLParser.createItemsList(doc);
+
+    // instantiate itemList
+    ItemList items = new ItemList(parsedItems);
+
+    // find matching items with "mindue"
+    List<Map<String, String>> matchedItems = new ArrayList<>();
+    for (Map<String, String> item : items) {
+      if (item.mindue != null) {
+        matchedItems.add(item);
+      }
+    }
+
+    // sort by soonest due
+
+    // convert items into Json
+    String json = JSONutilities.createJson(sortedItems);
+
+    return json;
   }
 
 }
