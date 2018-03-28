@@ -1,10 +1,11 @@
 package com.example;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItemList {
   // private List<Map<String, String>> items;
-  private ArrayList<Item> items;
+  private List<Item> items = new ArrayList<>();
 
   // constructor
   public ItemList() {
@@ -14,14 +15,14 @@ public class ItemList {
     this.items.add(item);
   }
 
-  public ArrayList<Item> getItems() {
+  public List<Item> getItems() {
     return items;
   }
 
   // filter by value provided in pathparam
   public ItemList matchValue(String pathParamValue) {
     ItemList valueMatches = new ItemList();
-    for (Item item : items) {
+    for (Item item : this.items) {
       if (item.containsValue(pathParamValue)) {
         valueMatches.addItem(item);
       }
@@ -34,8 +35,8 @@ public class ItemList {
     return this.items.size();
   }
 
-  public ItemList subList(int i, int size) {
-    // TODO Auto-generated method stub
-    return this.items.subList(1, this.size());
-  }
+  // public ItemList subList(int i, int size) {
+  // // TODO Auto-generated method stub
+  // return this.items.subList(1, this.size());
+  // }
 }

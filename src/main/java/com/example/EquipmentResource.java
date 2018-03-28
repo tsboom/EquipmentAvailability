@@ -1,8 +1,6 @@
 package com.example;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.Collections;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -23,13 +21,11 @@ public class EquipmentResource {
     Document doc = HTMLParser.parseDocument();
 
     // build the item list from parsed HTML
-    List<Map<String, String>> parsedItems = HTMLParser.createItemsList(doc);
-
-    // instantiate itemList
-    ItemList items = new ItemList(parsedItems);
+    ItemList itemList = HTMLParser.createItemsList(doc);
 
     // convert items into Json
-    String json = JSONutilities.createJson(items);
+    String json = JSONutilities.createJson(itemList);
+    System.out.print("here");
 
     return json;
   }
@@ -43,13 +39,10 @@ public class EquipmentResource {
     Document doc = HTMLParser.parseDocument();
 
     // build the item list from parsed HTML
-    List<Map<String, String>> parsedItems = HTMLParser.createItemsList(doc);
-
-    // instantiate itemList
-    ItemList items = new ItemList(parsedItems);
+    ItemList itemList = HTMLParser.createItemsList(doc);
 
     // find sublib
-    ItemList filteredItems = items.matchValue(sublib);
+    ItemList filteredItems = itemList.matchValue(sublib);
 
     // convert items into Json
     String json = JSONutilities.createJson(filteredItems);
@@ -63,17 +56,15 @@ public class EquipmentResource {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   public String getItemsBySysnum(@PathParam("sysnum") String sysnum) {
+
     // get the HTML into jsoup
     Document doc = HTMLParser.parseDocument();
 
     // build the item list from parsed HTML
-    List<Map<String, String>> parsedItems = HTMLParser.createItemsList(doc);
-
-    // instantiate itemList
-    ItemList items = new ItemList(parsedItems);
+    ItemList itemList = HTMLParser.createItemsList(doc);
 
     // find sysnum
-    ItemList filteredItems = items.matchValue(sysnum);
+    ItemList filteredItems = itemList.matchValue(sysnum);
 
     // convert items into Json
     String json = JSONutilities.createJson(filteredItems);
@@ -91,23 +82,21 @@ public class EquipmentResource {
     Document doc = HTMLParser.parseDocument();
 
     // build the item list from parsed HTML
-    List<Map<String, String>> parsedItems = HTMLParser.createItemsList(doc);
-
-    // instantiate itemList
-    ItemList items = new ItemList(parsedItems);
+    ItemList itemList = HTMLParser.createItemsList(doc);
 
     // find matching items with "mindue"
-    List<Map<String, String>> matchedItems = new ArrayList<>();
-    for (Map<String, String> item : items) {
-      if (item.mindue != null) {
-        matchedItems.add(item);
+    ItemList matchedItems = new ItemList();
+    for (Item item : matchedItems.getItems()) {
+      if (item.get("mindue") != null) {
+        matchedItems.addItem(item);
       }
     }
 
     // sort by soonest due
+    Collections.sort(matchedItems.getItems(), new ItemComparator("mindue", "DESC"));
 
     // convert items into Json
-    String json = JSONutilities.createJson(sortedItems);
+    String json = JSONutilities.createJson(matchedItems);
 
     return json;
   }
