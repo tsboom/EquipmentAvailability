@@ -12,6 +12,11 @@ import org.jsoup.nodes.Document;
 
 @Path("equipment")
 public class EquipmentResource {
+  /**
+   * This service returns a list of all of the equipment from the Laptops
+   * program
+   * @return json
+   */
   @GET
   @Path("all")
   @Produces(MediaType.APPLICATION_JSON)
@@ -25,12 +30,16 @@ public class EquipmentResource {
 
     // convert items into Json
     String json = JSONutilities.createJson(itemList);
-    System.out.print("here");
 
     return json;
   }
 
-  // show items from a particular sublibrary
+  /**
+   * This service returns a list of equipment from a particular sublibrary
+   * program
+   * @param sublib The string code for sublib is provided in the path.
+   * @return json 
+   */
   @GET
   @Path("sublib/{sublib}")
   @Produces(MediaType.APPLICATION_JSON)
@@ -51,7 +60,12 @@ public class EquipmentResource {
 
   }
 
-  // show a particular item by sys number
+  /**
+   * This service returns an item with a particular sysnumber.
+   * program
+   * @param sysnum The string of the sysnumber is provided in the path.
+   * @return json 
+   */
   @Path("sysnum/{sysnum}")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
@@ -73,7 +87,11 @@ public class EquipmentResource {
 
   }
 
-  // show items that are checked out. sort by soonest due
+  /**
+   * This service returns an list of items that are checked out.
+   * The list is sorted with the soonest due at the top.
+   * @return json 
+   */
   @Path("checkedout")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
@@ -85,15 +103,11 @@ public class EquipmentResource {
     ItemList itemList = HTMLParser.createItemsList(doc);
 
     // find matching items with "mindue"
-    ItemList matchedItems = new ItemList();
-    for (Item item : matchedItems.getItems()) {
-      if (item.get("mindue") != null) {
-        matchedItems.addItem(item);
-      }
-    }
+    ItemList matchedItems = itemList.valueExists("mindue");
 
     // sort by soonest due
-    Collections.sort(matchedItems.getItems(), new ItemComparator("mindue", "DESC"));
+    Collections.sort(matchedItems.getItems(), new ItemComparator("mindue",
+        "DESC"));
 
     // convert items into Json
     String json = JSONutilities.createJson(matchedItems);

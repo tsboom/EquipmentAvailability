@@ -7,6 +7,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+/**
+ * This class 
+ * program
+ * @param sysnum The string of the sysnumber is provided in the path.
+ * @return json 
+ */
 public class HTMLParser {
 
   // load the HTML from the Laptops application URL
@@ -41,11 +47,6 @@ public class HTMLParser {
       itemList.addItem(item);
     }
 
-    // // ignore first object in ArrayList b/c it's empty
-    // ItemList itemsMinusFirst = new ItemList();
-    // itemsMinusFirst = (ItemList) itemList.getItems().subList(1,
-    // itemList.size());
-    // return itemsMinusFirst;
     return itemList;
   }
 
