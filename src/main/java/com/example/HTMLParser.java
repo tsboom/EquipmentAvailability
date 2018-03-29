@@ -8,10 +8,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 /**
- * This class 
- * program
- * @param sysnum The string of the sysnumber is provided in the path.
- * @return json 
+ * This class is responsible for implementing HTML parsing methods.
  */
 public class HTMLParser {
 
