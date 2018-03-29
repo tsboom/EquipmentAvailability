@@ -2,6 +2,10 @@ package com.example;
 
 import java.util.Comparator;
 
+/**
+ * This class implements a Comparator that takes a key to sort by,
+ * and a sort direction.
+ */
 public class ItemComparator implements Comparator<Item> {
   private String direction = "ASC";
   private String sortKey = null;
@@ -17,6 +21,11 @@ public class ItemComparator implements Comparator<Item> {
     return this;
   }
 
+  /**
+   * This method returns a -1, 0, or 1 to indicate how to sort two items
+   * @param i1
+   * @param i2
+   */
   @Override
   public int compare(Item i1, Item i2) {
     // sort for String values
@@ -26,7 +35,6 @@ public class ItemComparator implements Comparator<Item> {
     } else {
       // descending order
       return i2.get(sortKey).compareTo(i1.get(sortKey));
-
     }
 
   }

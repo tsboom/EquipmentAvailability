@@ -3,14 +3,21 @@ package com.example;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class represents an Item, which always has a HashMap of properties.
+ */
 public class Item {
   private Map<String, String> properties = new HashMap<>();
-  // private String sortKey;
 
   // item constructor
   public Item() {
   }
 
+  /**
+   * This method adds a key and value to the properties.
+   * @param key
+   * @param value
+   */
   public void addProperty(String key, String value) {
     properties.put(key, value);
   }
@@ -19,15 +26,12 @@ public class Item {
     return properties;
   }
 
-  // get the value of the property based on key
+  /**
+   * This method adds a key and value to the properties.
+   * @param key
+   */
   public String get(String key) {
     return properties.get(key);
-  }
-
-  public boolean containsValue(String pathParamValue) {
-    // TODO Auto-generated method stub
-
-    return false;
   }
 
 }

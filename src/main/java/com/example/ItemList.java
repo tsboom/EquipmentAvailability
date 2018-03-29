@@ -59,7 +59,7 @@ public class ItemList {
 
   /**
    * This method returns the size of the itemsList
-   * 
+   *
    * @return int
    */
   public int size() {

@@ -11,8 +11,10 @@ import org.jsoup.select.Elements;
  * This class is responsible for implementing HTML parsing methods.
  */
 public class HTMLParser {
-
-  // load the HTML from the Laptops application URL
+  /**
+   * This method parses the HTML from the Laptops application URL
+   * @return doc
+   */
   public static Document parseDocument() {
     Document doc = null;
     try {
@@ -23,8 +25,10 @@ public class HTMLParser {
 
     return doc;
   }
-
-  // Build list of items from parsing HTML table
+  /**
+   * This method builds a list of items by parsing the HTML table.
+   * @return itemList
+   */
   public static ItemList createItemsList(Document document) {
     // initialize ArrayList of items
     ItemList itemList = new ItemList();
@@ -36,7 +40,6 @@ public class HTMLParser {
       Elements tds = row.getElementsByTag("td");
       Item item = new Item();
       for (Element td : tds) {
-        // why can't I see these vars in the debugger
         String className = td.attr("class");
         String value = td.text();
         item.addProperty(className, value);
