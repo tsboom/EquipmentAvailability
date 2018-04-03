@@ -10,13 +10,13 @@ import javax.ws.rs.core.MediaType;
 
 import org.jsoup.nodes.Document;
 
-
 @Path("equipment")
 public class EquipmentResource {
   /**
    * This service returns a list of all of the equipment from the Laptops
    * program
-   * @return json
+   *
+   * @return json representation of all equipment items and their properties.
    */
   @GET
   @Path("all")
@@ -38,8 +38,10 @@ public class EquipmentResource {
   /**
    * This service returns a list of equipment from a particular sublibrary
    * program
-   * @param sublib The string code for sublib is provided in the path.
-   * @return json
+   *
+   * @param sublib
+   *          The string code for sublib is provided in the path.
+   * @return json representation of equipment from the sublib.
    */
   @GET
   @Path("sublib/{sublib}")
@@ -62,10 +64,11 @@ public class EquipmentResource {
   }
 
   /**
-   * This service returns an item with a particular sysnumber.
-   * program
-   * @param sysnum The string of the sysnumber is provided in the path.
-   * @return json
+   * This service returns an item with a particular sysnumber. program
+   *
+   * @param sysnum
+   *          The string of the sysnumber is provided in the path.
+   * @return json representation of the item matching the sysnumber.
    */
   @Path("sysnum/{sysnum}")
   @GET
@@ -89,9 +92,10 @@ public class EquipmentResource {
   }
 
   /**
-   * This service returns an list of items that are checked out.
-   * The list is sorted with the soonest due at the top.
-   * @return json
+   * This service returns an list of items that are checked out. The list is
+   * sorted with the soonest due at the top.
+   *
+   * @return json representation of items checked out.
    */
   @Path("checkedout")
   @GET

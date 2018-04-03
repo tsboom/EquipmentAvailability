@@ -3,8 +3,8 @@ package com.example;
 import java.util.Comparator;
 
 /**
- * This class implements a Comparator that takes a key to sort by,
- * and a sort direction.
+ * This class implements a Comparator that takes a key to sort by, and a sort
+ * direction.
  */
 public class ItemComparator implements Comparator<Item> {
   private String direction = "ASC";
@@ -15,16 +15,12 @@ public class ItemComparator implements Comparator<Item> {
     this.direction = direction;
   }
 
-  public ItemComparator sortBy(String sortKey, String direction) {
-    this.sortKey = sortKey;
-    this.direction = direction;
-    return this;
-  }
-
   /**
    * This method returns a -1, 0, or 1 to indicate how to sort two items
+   *
    * @param i1
    * @param i2
+   * @return -1, 0, 1 integer that is used to help sort two objects
    */
   @Override
   public int compare(Item i1, Item i2) {

@@ -2,6 +2,7 @@
 .classpath
 .project
 .settings/
+doc/
  
 # Intellij
 .idea/
@@ -9,7 +10,7 @@
 *.iws
  
 # Mac
-.DS_Store
+*/.DS_Store
  
 # Maven
 log/

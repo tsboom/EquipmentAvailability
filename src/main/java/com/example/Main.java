@@ -26,16 +26,6 @@ public class Main {
     // in com.example package
     final ResourceConfig rc = new ResourceConfig().packages("com.example");
 
-    // enable logging (??)
-    class RestApplication extends ResourceConfig {
-
-      public RestApplication() {
-        super();
-        property("jersey.config.server.tracing.type", "ON_DEMAND");
-        property("jersey.config.server.tracing.threshold", "VERBOSE");
-      }
-    }
-
     // create and start a new instance of grizzly http server
     // exposing the Jersey application at BASE_URI
     return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
